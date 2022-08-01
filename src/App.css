@@ -19,8 +19,8 @@ ul{
 .picture-list{
   margin: 0;
   position: absolute;
-  /* animation: carousel 5s infinite ease-in-out; */
-  /* transition: all 1s ease-in-out; */
+  /* animation: carousel 5s infinite ease-in-out;
+  transition: all 0.5s ease-in-out; */
 }
 .picture-list li{
   display: inline-block;

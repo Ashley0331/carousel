@@ -1,4 +1,4 @@
-import { FC, memo, useCallback, useEffect, useState } from "react";
+import { FC, memo, useCallback, useEffect, useRef, useState } from "react";
 import { Picture } from "../model/picture";
 import { AiFillCaretLeft, AiFillCaretRight } from "react-icons/ai";
 import Image from "./image";
@@ -17,7 +17,7 @@ const Carousel: FC = memo(() => {
     if (leftValue === 0) {
       setCurrent(3);
       setTransition("");
-      setLeftValue(-(images.length*400));
+      setLeftValue(-(images.length * 400));
     } else {
       leftValue === -400 ? setCurrent(3) : setCurrent(current - 1);
       setLeftValue(leftValue + 400);
@@ -36,34 +36,36 @@ const Carousel: FC = memo(() => {
     setLeftValue(-400 * n);
     setCurrent(n);
   }, []);
-//   useEffect(() => {
-//     const autoPlay = setInterval(() => {
-//       if (leftValue <= -1600) {
-//         setTransition("");
-//         setLeftValue(-400);
-//       } else {
-//         if (leftValue === -1200) {
-//           setCurrent(1);
-//         } else if (leftValue === 0) {
-//           setCurrent(1);
-//         } else {
-//           setCurrent(current + 1);
-//         }
-//         setTransition("all 0.5s ease-in-out");
-//         setLeftValue(leftValue - 400);
-//       }
-//     }, 1500);
-//     return () => {
-//       clearInterval(autoPlay);
-//     };
-//   });
+  useEffect(() => {
+    const autoPlay = setInterval(() => {
+      if (leftValue <= -1600) {
+        setTransition("");
+        setLeftValue(-400);
+      } else {
+        if (leftValue === -1200) {
+          setCurrent(1);
+        } else if (leftValue === 0) {
+          setCurrent(1);
+        } else {
+          setCurrent(current + 1);
+        }
+        setTransition("all 0.5s ease-in-out");
+        setLeftValue(leftValue - 400);
+      }
+    }, 1500);
+    return () => {
+      clearInterval(autoPlay);
+    };
+  });
   return (
     <div className="images-list">
       <ul
         className="picture-list"
-        style={{ left: leftValue,
-             transition: transition,
-            width:(images.length+2)*400 }}
+        style={{
+          transform: `translateX(${leftValue}px)`,
+          transition: transition,
+          width: (images.length + 2) * 400,
+        }}
       >
         <Image picture={images[images.length - 1]} />
         {images.map((temp) => {
